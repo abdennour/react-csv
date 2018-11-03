@@ -43,18 +43,18 @@ export const getHeaderValue = (property, obj) => {
         return o[p];
       }
     }, obj);
-  
+
   return (foundValue === undefined) ? '' : foundValue;
 }
 
-export const elementOrEmpty = (element) => element || element === 0 ? element : '';
+export const elementOrEmpty = (element) => (element || element === 0 ? element : '').replace(/"/g, '""');
 
 export const joiner = ((data,separator = ',') =>
  data.map((row, index) => row.map((element) => "\"" + elementOrEmpty(element) + "\"").join(separator)).join(`\n`)
 );
 
 export const arrays2csv = ((data, headers, separator) =>
- joiner(headers ? [headers, ...data] : data, separator)
+    joiner(headers ? [headers, ...data] : data, separator)
 );
 
 export const jsons2csv = ((data, headers, separator) =>
@@ -84,4 +84,3 @@ export const buildURI = ((data, uFEFF, headers, separator) => {
     ? dataURI
     : URL.createObjectURL(blob);
 });
-

@@ -16,7 +16,7 @@ describe('In browser environment', () => {
   before(function () {
     this.jsdom = require('jsdom-global')()
   })
-  
+
   after(function () {
     this.jsdom()
   })
@@ -65,9 +65,8 @@ describe('In browser environment', () => {
       ];
       expect(isArrays(target)).toBeFalsy();
     });
-  
-  });
 
+  });
 
   describe(`core::jsonsHeaders`, () => {
     let fixtures;
@@ -100,6 +99,7 @@ describe('In browser environment', () => {
       })
 
   });
+
   describe(`core::jsons2arrays`, () => {
     let fixtures;
     beforeEach(() => {
@@ -149,9 +149,9 @@ describe('In browser environment', () => {
         maths: '77',
         sport: 0
       }, {
-        people: { 
-          name: 'john', 
-          age: 12 
+        people: {
+          name: 'john',
+          age: 12
         }
       }]
       const headers = ['maths', 'sport', 'phy', 'ch', 'people.name'];
@@ -186,8 +186,17 @@ describe('In browser environment', () => {
       const firstLineOfCSV = arrays2csv(fixtures, headers).split(`\n`)[0];
       expect(firstLineOfCSV).toEqual(`"X","Y"`);
     });
-  });
 
+    it(`escapes double quotes with preceding double quotes as per RFC-4180`, () => {
+      const fixtures = [
+        ['ee', '<h1 style="text-align:center;">I should be printed out in a single cell in the csv file</h1>', '55'],
+        ['ff', 'xx', '66']
+      ]
+      const actual = arrays2csv(fixtures);
+      expect(actual).toBeA('string');
+      expect(actual.split(',')[1]).toContain('""');
+    });
+  });
 
   describe(`core::jsons2csv`, () => {
     let fixtures;
@@ -211,7 +220,7 @@ describe('In browser environment', () => {
       expect(actual.split(`\n`).join(`|`)).toEqual(expected);
     });
 
-  it(`renders CSV string according to order of given headers`, () => {
+    it(`renders CSV string according to order of given headers`, () => {
     let fixtures =[{X:'12', Y:'bb'}, {Y:'ee', X:'55'}]
     const headers = ['Y', 'X', 'Z'];
     const actual = jsons2csv(fixtures, headers);
@@ -233,6 +242,15 @@ describe('In browser environment', () => {
       expect(actual.endsWith(`"77","99"`)).toBeTruthy();
     });
 
+    it(`escapes double quotes with preceding double quotes as per RFC-4180`, () => {
+      const fixtures = [
+        { X:'ee', Y:'<h1 style="text-align:center;">I should be printed out in a single cell in the csv file</h1>', Z: '55' }
+      ]
+      const headers = ['X', 'Y', 'Z'];
+      const actual = jsons2csv(fixtures, headers);
+      expect(actual).toBeA('string');
+      expect(actual.split(',')[3]).toContain('""');
+    });
   });
 
   describe(`core::string2csv`, () =>{

@@ -14,7 +14,8 @@ const csvData =[
   ['Nine 10ᵗʰ', 'Amjed Idris' , 'المملكة العربية السعودية '] ,
   ['Tamkeen', 'Mohamed Alshibi' , 'المملكة العربية السعودية'] ,
   ['Packet Publishing', 'David Become' , 'UK'] ,
-  ['Software hourse', 'Soro' , 'Poland']
+  ['Escapes double quotes', '<h1 style="text-align:center;">I should be printed out in a single cell in the csv file</h1>', 'Hungary'],
+  ['Software hourse', 'Soro' , 'Poland'],
 ];
 
 class App extends React.Component {
