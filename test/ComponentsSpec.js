@@ -117,8 +117,9 @@ describe('In browser environment', () => {
         const separator = ',';
         const filename = 'SyeniteFulcrum';
         const enclosingCharacter = '"';
+        const newLineSeparator = '\n';
 
-        const wrapper = shallow(<CSVLink {...{data, headers, separator, filename, enclosingCharacter}} />);
+        const wrapper = shallow(<CSVLink {...{data, headers, separator, filename, enclosingCharacter, newLineSeparator}} />);
         const instance = wrapper.instance();
 
         // create spies
@@ -132,7 +133,7 @@ describe('In browser environment', () => {
         instance.handleLegacy({ preventDefault });
 
         expect(preventDefault.called).toBeTruthy;
-        expect(toCSVSpy.calledWith([data, headers, separator, enclosingCharacter])).toBeTruthy;
+        expect(toCSVSpy.calledWith([data, headers, separator, enclosingCharacter, newLineSeparator])).toBeTruthy;
         expect(window.navigator.msSaveBlob.calledWith(filename)).toBeTruthy;
       });
     });

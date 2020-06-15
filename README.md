@@ -189,6 +189,25 @@ import {CSVLink} from 'react-csv';
 
 ```
 
+### - **newLineSeparator** Props:
+
+Following a request to add [this feature](https://github.com/react-csv/react-csv/issues/231), `react-csv` supports a `newLineSeparator` prop which defaults to `\n`.
+
+
+```js
+import {CSVLink} from 'react-csv';
+
+<CSVLink data={array} newLineSeparator={`\r\n`}>
+    Download me
+</CSVLink>
+
+/*
+    "foo","bar"
+    "a","b"
+ */
+
+```
+
 ## 1. CSVLink Component:
 
 It renders a hyperlink and clicking on it will trigger the download action of the CSV document.
