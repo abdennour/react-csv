@@ -87,8 +87,9 @@ class CSVLink extends React.Component {
         return this.props.asyncOnClick
           ? this.handleAsyncClick(event)
           : this.handleSyncClick(event);
+      } else {
+        this.handleLegacy(event);
       }
-      this.handleLegacy(event);
     };
   }
 
