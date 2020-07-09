@@ -37,10 +37,11 @@ export const getHeaderValue = (property, obj) => {
     .split(".")
     .reduce(function(o, p, i, arr) {
       // if at any point the nested keys passed do not exist, splice the array so it doesnt keep reducing
-      if (o[p] === undefined) {
+      const value = o[p];
+      if (value === undefined || value === null) {
         arr.splice(1);
       } else {
-        return o[p];
+        return value;
       }
     }, obj);
   // if at any point the nested keys passed do not exist then looks for key `property` in object obj
