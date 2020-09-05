@@ -54,6 +54,7 @@ The two components accept the following `Props`:
 
 A required property that represents the CSV data.
 This data can be _array of arrays_, _array of literal objects_ or _string_.
+This can also be a function that returns any of these things.
 
 **Example of Array of arrays**
 
@@ -92,6 +93,19 @@ Yezzi,Min l3b
 // or using 3rd party package
 import json2csv from "json2csv";
 data = json2csv(arrayOfLiteralObjects);
+```
+
+**Example of function returning data**
+
+```js
+// this function just returns a basic array, but you could also map or return some recently downloaded data in state
+function dataFromAsyncProcess() {
+  return [
+    { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
+    { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
+    { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+  ];
+}
 ```
 
 ### - **headers** Props:
@@ -292,6 +306,59 @@ import { CSVLink } from "react-csv";
 >
   Download me
 </CSVLink>;
+```
+
+- 🔬 Async + data function
+
+```js
+import { CSVLink } from "react-csv";
+
+export default class DownloadUserCSVButton extends React.Component {
+  constructor(props: {}) {
+      super(props);
+
+      this.state = {
+        listOfUsers: [],
+        loading: false
+      };
+  }
+
+  getUsers = (event, done) => {
+    if(!this.state.loading) {
+      this.setState({
+        loading: true
+      });
+      axios.get("/api/users").then((userListJson) => {
+        this.setState({
+          listOfUsers: userListJson,
+          loading: false
+        });
+        done(true); // Proceed and get data from dataFromListOfUsersState function
+      }).catch(() => {
+        this.setState({
+          loading: false
+        });
+        done(false);
+      });
+    }
+  }
+
+  dataFromListOfUsersState = () => {
+    return this.state.listOfUsers;
+  }
+
+  render() {
+    const {loading} = this.state;
+    return <CSVLink
+      data={this.dataFromListOfUsersState}
+      asyncOnClick={true}
+      onClick={this.getUsers}
+    >
+      {loading ? 'Loading csv...' : 'Download me'}
+    </CSVLink>;
+  }
+}
+
 ```
 
 ## 2. CSVDownload Component:

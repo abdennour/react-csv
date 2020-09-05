@@ -3,7 +3,7 @@ import { string, array, oneOfType, bool, func } from 'prop-types';
 
 
 export const propTypes = {
-  data: oneOfType([string, array]).isRequired,
+  data: oneOfType([string, array, func]).isRequired,
   headers: array,
   target: string,
   separator: string,
